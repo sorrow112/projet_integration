@@ -22,6 +22,18 @@ class Commentaire
      */
     private $contenu;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Publication::class, inversedBy="commentaires")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $Publication;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="commentaires")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $User;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -35,6 +47,30 @@ class Commentaire
     public function setContenu(string $contenu): self
     {
         $this->contenu = $contenu;
+
+        return $this;
+    }
+
+    public function getPublication(): ?Publication
+    {
+        return $this->Publication;
+    }
+
+    public function setPublication(?Publication $Publication): self
+    {
+        $this->Publication = $Publication;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->User;
+    }
+
+    public function setUser(?User $User): self
+    {
+        $this->User = $User;
 
         return $this;
     }
