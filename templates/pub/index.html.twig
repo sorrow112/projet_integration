@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}acceuil{% endblock %}
+
+{% block body %}
+
+{{ form(form_pub) }}
+    <br>
+    <div class="form-group">{{ form_label(pub_form.contenu) }}
+        <div class="form-control" style="width: 30%">{{ form_widget(pub_form.contenu) }}</div></div>
+    
+    <button type="submit" class="btn btn-dark"> Soumettre</button>
+    {{ form_end(pub_form) }}
+    
+{% endblock %}

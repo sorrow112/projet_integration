@@ -48,6 +48,8 @@ class Publication
     public function __construct()
     {
         $this->commentaires = new ArrayCollection();
+        $this->dateCreation = new \DateTime();
+        $this->dateModification = new \DateTime();
     }
 
     public function getId(): ?int
