@@ -45,6 +45,11 @@ class Publication
      */
     private $commentaires;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $OwnerName;
+
     public function __construct()
     {
         $this->commentaires = new ArrayCollection();
@@ -85,6 +90,7 @@ class Publication
     {
         return $this->dateModification;
     }
+    
 
     public function setDateModification(\DateTimeInterface $dateModification): self
     {
@@ -131,6 +137,18 @@ class Publication
                 $commentaire->setPublication(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getOwnerName(): ?string
+    {
+        return $this->OwnerName;
+    }
+
+    public function setOwnerName(string $OwnerName): self
+    {
+        $this->OwnerName = $OwnerName;
 
         return $this;
     }

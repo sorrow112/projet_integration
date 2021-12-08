@@ -18,7 +18,17 @@ class PublicationRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Publication::class);
     }
+    public function findAllP()
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->orderBy('p.dateModification', 'DESC');
 
+       
+
+        $query = $qb->getQuery();
+
+        return $query->execute();
+    }
     // /**
     //  * @return Publication[] Returns an array of Publication objects
     //  */

@@ -17,20 +17,24 @@ class PublicationController extends AbstractController
     #[Route('/', name: 'publication_index', methods: ['GET'])]
     public function index(PublicationRepository $publicationRepository): Response
     {
+        
+        
         return $this->render('publication/index.html.twig', [
-            'publications' => $publicationRepository->findAll(),
+            'publications' => $publicationRepository->findAllP()
         ]);
     }
 
     #[Route('/new', name: 'publication_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        
         $publication = new Publication();
         $form = $this->createForm(Publication1Type::class, $publication);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $publication->setUser($this->getUser());
+            $publication->setOwnerName($this->getUser()->nomUtilisateur);
             $entityManager->persist($publication);
             $entityManager->flush();
 
