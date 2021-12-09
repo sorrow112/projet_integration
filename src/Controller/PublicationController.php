@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Commentaire;
 use App\Entity\Publication;
+use App\Form\CommentaireType;
 use App\Form\Publication1Type;
 use App\Repository\PublicationRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -15,13 +17,21 @@ use Symfony\Component\Routing\Annotation\Route;
 class PublicationController extends AbstractController
 {
     #[Route('/', name: 'publication_index', methods: ['GET'])]
-    public function index(PublicationRepository $publicationRepository): Response
+    public function index(PublicationRepository $publicationRepository, EntityManagerInterface $entityManager, Request $request,): Response
     {
+
         
-        
-        return $this->render('publication/index.html.twig', [
-            'publications' => $publicationRepository->findAllP()
-        ]);
+        if ($this->getUser() == null) {
+        return $this->renderForm('publication/index.html.twig', [
+            'publications' => $publicationRepository->findAllP(),
+            'user' => '',
+        ]);}
+        else{
+            return $this->renderForm('publication/index.html.twig', [
+                'publications' => $publicationRepository->findAllP(),
+                'user' => $this->getUser(),
+            ]);
+        }
     }
 
     #[Route('/new', name: 'publication_new', methods: ['GET', 'POST'])]
@@ -40,11 +50,20 @@ class PublicationController extends AbstractController
 
             return $this->redirectToRoute('publication_index', [], Response::HTTP_SEE_OTHER);
         }
-
-        return $this->renderForm('publication/new.html.twig', [
-            'publication' => $publication,
-            'form' => $form,
-        ]);
+        if ($this->getUser() == null) {
+            return $this->renderForm('publication/index.html.twig', [
+                'publication' => $publication,
+                'form' => $form,
+                'user' => '',
+            ]);}
+        else{
+            return $this->renderForm('publication/new.html.twig', [
+                'publication' => $publication,
+                'form' => $form,
+                'user' =>$this-> getUser(),
+            ]);
+        }
+       
     }
 
     #[Route('/{id}', name: 'publication_show', methods: ['GET'])]

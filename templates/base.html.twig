@@ -12,8 +12,11 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"> {% block javascripts %}{% endblock %}
 		<link rel="stylesheet" href="/style.css">
+		<link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
 		</head>
 		<body>
+		{% block nav %}{% include "components/topnav.html.twig" %}
+		<a href="/publication/new">créer une publication</a>{% endblock %}
 			{% block body %}{% endblock %}
 
 

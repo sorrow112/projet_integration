@@ -50,11 +50,23 @@ class Publication
      */
     private $OwnerName;
 
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $titre;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Tag::class, mappedBy="Publication")
+     */
+    private $tags;
+
     public function __construct()
     {
         $this->commentaires = new ArrayCollection();
         $this->dateCreation = new \DateTime();
         $this->dateModification = new \DateTime();
+        $this->tags = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -149,6 +161,46 @@ class Publication
     public function setOwnerName(string $OwnerName): self
     {
         $this->OwnerName = $OwnerName;
+
+        return $this;
+    }
+
+
+    public function getTitre(): ?string
+    {
+        return $this->titre;
+    }
+
+    public function setTitre(string $titre): self
+    {
+        $this->titre = $titre;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Tag[]
+     */
+    public function getTags(): Collection
+    {
+        return $this->tags;
+    }
+
+    public function addTag(Tag $tag): self
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags[] = $tag;
+            $tag->addPublication($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTag(Tag $tag): self
+    {
+        if ($this->tags->removeElement($tag)) {
+            $tag->removePublication($this);
+        }
 
         return $this;
     }

@@ -1,0 +1,8 @@
+.nav-a {
+    color: white !important;
+}
+
+.nav-a:hover {
+    color: black !important;
+    background-color: #48ffd5 !important;
+}
