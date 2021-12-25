@@ -1,34 +1,73 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Publication{% endblock %}
+{% block stylesheets %}
+{{parent()}}
+<link rel="stylesheet" href="/post.css">
+{% endblock %}
 
 {% block body %}
     <h1>Publication</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ publication.id }}</td>
-            </tr>
-            <tr>
-                <th>Contenu</th>
-                <td>{{ publication.contenu }}</td>
-            </tr>
-            <tr>
-                <th>DateCreation</th>
-                <td>{{ publication.dateCreation ? publication.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>DateModification</th>
-                <td>{{ publication.dateModification ? publication.dateModification|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
 
     <a href="{{ path('publication_index') }}">back to list</a>
 
-    <a href="{{ path('publication_edit', {'id': publication.id}) }}">edit</a>
+    {# <a href="{{ path('publication_edit', {'id': publication.id}) }}">edit</a> #}
 
-    {{ include('publication/_delete_form.html.twig') }}
+    {# {{ include('publication/_delete_form.html.twig') }} #}
+    <div class="container bootstrap snippets bootdey">
+    <div class="col-sm-8">
+        <div class="panel panel-white post panel-shadow">
+            <div class="post-heading row">
+                <div class="pull-left image">
+                    <img src="https://bootdey.com/img/Content/user_1.jpg" class="img-circle avatar" alt="user profile image">
+                </div>
+                <div class="pull-left meta col-md-5">
+                    <div class="title h5">
+                        <a href="#"><b>{{publication.ownerName}}</b></a>
+                        made a post.
+                    </div>
+                    <h6 class="text-muted time">{{ publication.dateModification ? publication.dateModification|date('Y-m-d H:i') : '' }}</h6>
+                </div>
+                <div class="col-md-3">
+                </div>
+            </div> 
+            <div class="post-description"> 
+
+                <p>{{publication.contenu}}</p>
+                <div class="stats">
+                    <a href="#" class="btn btn-default stat-item">
+                        <i class="fa fa-thumbs-up icon"></i>test
+                    </a>
+                    <a href="#" class="btn btn-default stat-item">
+                        <i class="fa fa-share icon"></i>{{publication.commentaires|length}}
+                    </a>
+                </div>
+            </div>
+            <div class="post-footer">
+                <div class="input-group"> 
+                    {{ include('publication/_commentForm.html.twig') }}
+                </div>
+                <ul class="comments-list">
+                    {% for commentaire in publication.commentaires %}
+                        <li class="comment">
+                        <a class="pull-left" href="#">
+                            <img class="avatar" src="https://bootdey.com/img/Content/user_1.jpg" alt="avatar">
+                        </a>
+                        <div class="comment-body">
+                            <div class="comment-heading">
+                                <h4 class="user">Gavino Free</h4>
+                                <h5 class="time">5 minutes ago</h5>
+                            </div>
+                            <p>{{commentaire.contenu}}</p>
+                        </div>
+
+                    </li>
+                    {% endfor %}
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+    </div>
 {% endblock %}

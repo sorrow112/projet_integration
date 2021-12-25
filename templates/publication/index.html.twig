@@ -36,7 +36,7 @@
 						<div class="row align-items-center">
 							<div class="col-md-8 mb-3 mb-sm-0">
 								<h5>
-									<a href="#" class="text-primary">{{ publication.contenu }}</a>
+									<a href="{{path("publication_show",{'id' : publication.id})}}" class="text-primary">{{ publication.titre }}</a>
 								</h5>
 								<p class="text-sm"><span class="op-6">Posted</span>
 									<a class="text-black" href="#">{{ publication.dateModification ?
@@ -44,7 +44,7 @@
 									<a class="text-black" href="#">{{publication.ownerName}}</a>
 								</p>
 								<div class="text-sm op-5"> 
-									<a class="text-black mr-2" href="#">#{{ publication.categorie}}</a>
+									<a class="text-black mr-2" href="#"></a>
 								</div>
 							</div>
 							<div class="col-md-4 op-7">

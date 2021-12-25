@@ -51,7 +51,7 @@ class PublicationController extends AbstractController
             return $this->redirectToRoute('publication_index', [], Response::HTTP_SEE_OTHER);
         }
         if ($this->getUser() == null) {
-            return $this->renderForm('publication/index.html.twig', [
+            return $this->renderForm('publication/new.html.twig', [
                 'publication' => $publication,
                 'form' => $form,
                 'user' => '',
@@ -66,12 +66,37 @@ class PublicationController extends AbstractController
        
     }
 
-    #[Route('/{id}', name: 'publication_show', methods: ['GET'])]
-    public function show(Publication $publication): Response
+    #[Route('/{id}', name: 'publication_show', methods: ['GET', 'POST'])]
+    public function show(Publication $publication, Request $request, EntityManagerInterface $entityManager): Response
     {
-        return $this->render('publication/show.html.twig', [
+        $Commentaire = new Commentaire();
+        $cform = $this->createForm(CommentaireType::class, $Commentaire);
+        $cform->handleRequest($request);
+
+        if ($cform->isSubmitted() && $cform->isValid()) {
+            $Commentaire->setUser($this->getUser());
+            $Commentaire->setPublication($publication);
+            $Commentaire->setDateCree();
+            $Commentaire->setDateMod();
+            $entityManager->persist($Commentaire);
+            $entityManager->flush();
+        
+        }
+        if ($this->getUser() == null) {
+        return $this->renderForm('publication/show.html.twig', [
+            'Commentaire' => $Commentaire,
             'publication' => $publication,
-        ]);
+            'Cform' => $cform,
+            'user' => '',   
+        ]);}
+        else{
+            return $this->renderForm('publication/show.html.twig', [
+                'Commentaire' => $Commentaire,
+                'publication' => $publication,
+                'Cform' => $cform,
+                'user' =>$this-> getUser(),
+            ]);
+        }
     }
 
     #[Route('/{id}/edit', name: 'publication_edit', methods: ['GET', 'POST'])]

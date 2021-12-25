@@ -34,6 +34,16 @@ class Commentaire
      */
     private $User;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $dateCree;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $dateMod;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -71,6 +81,30 @@ class Commentaire
     public function setUser(?User $User): self
     {
         $this->User = $User;
+
+        return $this;
+    }
+
+    public function getDateCree(): ?\DateTimeInterface
+    {
+        return $this->dateCree;
+    }
+
+    public function setDateCree(): self
+    {
+        $this->dateCree = new \DateTime();
+
+        return $this;
+    }
+
+    public function getDateMod(): ?\DateTimeInterface
+    {
+        return $this->dateMod;
+    }
+    
+    public function setDateMod(): self
+    {
+        $this->dateMod = new \DateTime();
 
         return $this;
     }
