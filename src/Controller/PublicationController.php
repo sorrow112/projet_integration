@@ -78,6 +78,7 @@ class PublicationController extends AbstractController
             $Commentaire->setPublication($publication);
             $Commentaire->setDateCree();
             $Commentaire->setDateMod();
+            $Commentaire->setNomUtil($this->getUser()->nomUtilisateur);
             $entityManager->persist($Commentaire);
             $entityManager->flush();
         
@@ -102,6 +103,9 @@ class PublicationController extends AbstractController
     #[Route('/{id}/edit', name: 'publication_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Publication $publication, EntityManagerInterface $entityManager): Response
     {
+        if($publication->getUser() != $this->getUser()){
+            return $this->render('main/getOut.html.twig');
+        }
         $form = $this->createForm(Publication1Type::class, $publication);
         $form->handleRequest($request);
 
@@ -110,18 +114,30 @@ class PublicationController extends AbstractController
 
             return $this->redirectToRoute('publication_index', [], Response::HTTP_SEE_OTHER);
         }
-
-        return $this->renderForm('publication/edit.html.twig', [
-            'publication' => $publication,
-            'form' => $form,
-        ]);
+        if ($this->getUser() == null) {
+            return $this->renderForm('publication/edit.html.twig', [
+                'publication' => $publication,
+                'form' => $form,
+                'user' => '',  
+            ]);}
+        else{
+            return $this->renderForm('publication/edit.html.twig', [
+                'publication' => $publication,
+                'form' => $form,
+                'user' => $this->getUser(),  
+            ]);
+        }
     }
 
-    #[Route('/{id}', name: 'publication_delete', methods: ['POST'])]
-    public function delete(Request $request, Publication $publication, EntityManagerInterface $entityManager): Response
+    #[Route('/{id}/delete', name: 'publication_delete', methods: ['POST'])]
+    public function delete(Request $request, Publication $publication, EntityManagerInterface $entityManager,): Response
     {
+        if($publication->getUser() != $this->getUser()){
+            return $this->render('main/getOut.html.twig');
+        }
         if ($this->isCsrfTokenValid('delete'.$publication->getId(), $request->request->get('_token'))) {
             $entityManager->remove($publication);
+
             $entityManager->flush();
         }
 

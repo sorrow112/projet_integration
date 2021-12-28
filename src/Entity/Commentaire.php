@@ -44,6 +44,11 @@ class Commentaire
      */
     private $dateMod;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $nomUtil;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -105,6 +110,18 @@ class Commentaire
     public function setDateMod(): self
     {
         $this->dateMod = new \DateTime();
+
+        return $this;
+    }
+
+    public function getNomUtil(): ?string
+    {
+        return $this->nomUtil;
+    }
+
+    public function setNomUtil(?string $nomUtil): self
+    {
+        $this->nomUtil = $nomUtil;
 
         return $this;
     }

@@ -29,6 +29,7 @@ class PublicationRepository extends ServiceEntityRepository
 
         return $query->execute();
     }
+    
     // /**
     //  * @return Publication[] Returns an array of Publication objects
     //  */
